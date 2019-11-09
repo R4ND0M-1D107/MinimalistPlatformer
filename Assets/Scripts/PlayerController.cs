@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -15,6 +16,10 @@ public class PlayerController : MonoBehaviour
    private Rigidbody2D rb;
 
    private bool facingRight = true;
+
+   private bool LevelComplete;
+   public Transform portalCheck;
+   public LayerMask whatIsPortal;
 
    private bool isGrounded;
    public Transform groundCheck;
@@ -32,6 +37,9 @@ public class PlayerController : MonoBehaviour
     public Transform killCheck;
     public LayerMask whatIsKill;
 
+    public GameObject NextLevelDialog;
+    Vector2 dialogPos;
+    
     public GameObject FireballR;
     public GameObject FireballL;
     Vector2 fireballPos;
@@ -51,6 +59,7 @@ public class PlayerController : MonoBehaviour
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
         isSpiked = Physics2D.OverlapCircle(spikeCheck.position, checkRadius, whatIsSpikes);
         isKilled = Physics2D.OverlapCircle(killCheck.position, checkRadius, whatIsKill);
+        LevelComplete = Physics2D.OverlapCircle(portalCheck.position, checkRadius, whatIsPortal);
         
         float Dirx = Input.GetAxis("Horizontal") ;
         Debug.Log(Dirx);
@@ -64,7 +73,7 @@ public class PlayerController : MonoBehaviour
     }
 
     void Update(){
-        if(isSpiked == true){
+        if(isSpiked == true || isKilled == true){
             player.transform.position = spawnPoint.transform.position;
             Score.ScoreValue -= 5;
         }
@@ -73,15 +82,16 @@ public class PlayerController : MonoBehaviour
             extraJumps = extraJumpsValue;
         }
 
-        if(isKilled == true){
-            player.transform.position = spawnPoint.transform.position;
-            Score.ScoreValue -= 5;
-        }
-
         if (Input.GetButtonDown ("Fire1") && Time.time > nextFire){
 
             nextFire = Time.time + fireRate;
             fire ();
+        }
+
+        if (LevelComplete == true) {
+            dialogPos = transform.position;
+            dialogPos += new Vector2 (0f, 0f);
+            Instantiate (NextLevelDialog, dialogPos, Quaternion.identity);
         }
 
         if(Input.GetKeyDown(KeyCode.UpArrow) && extraJumps > 0){
@@ -102,12 +112,13 @@ public class PlayerController : MonoBehaviour
     void fire (){
         fireballPos = transform.position;
         if (facingRight == true) {
-            fireballPos += new Vector2 (+1f, -0.43f);
+            fireballPos += new Vector2 (+1f, 0f);
             Instantiate (FireballR, fireballPos, Quaternion.identity);
         } else {
-            fireballPos += new Vector2 (-1f, -0.43f);
+            fireballPos += new Vector2 (-1f, 0f);
             Instantiate (FireballL, fireballPos, Quaternion.identity);
         }
     }
+
 
 }
