@@ -2513,6 +2513,36 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 695808865640478286}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1527568264
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1527568265}
+  m_Layer: 0
+  m_Name: PortalSpawn2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1527568265
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1527568264}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -42, y: -6.7, z: -0.15625}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1550885547
 GameObject:
   m_ObjectHideFlags: 0
@@ -2754,6 +2784,36 @@ Transform:
   - {fileID: 2092010371}
   m_Father: {fileID: 0}
   m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1650136254
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1650136255}
+  m_Layer: 0
+  m_Name: PortalSpawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1650136255
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1650136254}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -31.2, y: -6.5, z: -0.15625}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1700691096 stripped
 Transform:
@@ -3326,7 +3386,17 @@ PrefabInstance:
         type: 3}
       propertyPath: NextLevelDialog
       value: 
-      objectReference: {fileID: 8110006971177080117, guid: f19ea6bdff6bc38488a15c4d05e5de3c,
+      objectReference: {fileID: 4435133190876920514, guid: 99b832b4d2b3f9547bcfd7fec683a520,
         type: 3}
+    - target: {fileID: 9011481746492354632, guid: 6df5ac3200892a14e9375a7a9a1977fe,
+        type: 3}
+      propertyPath: PortalSpawn
+      value: 
+      objectReference: {fileID: 1650136254}
+    - target: {fileID: 9011481746492354632, guid: 6df5ac3200892a14e9375a7a9a1977fe,
+        type: 3}
+      propertyPath: PortalSpawn2
+      value: 
+      objectReference: {fileID: 1527568264}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6df5ac3200892a14e9375a7a9a1977fe, type: 3}

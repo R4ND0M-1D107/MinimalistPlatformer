@@ -9,6 +9,8 @@ public class PlayerController : MonoBehaviour
    public GameObject player;
 
    public GameObject spawnPoint;
+   public GameObject PortalSpawn;
+   public GameObject PortalSpawn2;
 
    public float Speed = 10f;
    public float jumpForce;
@@ -92,6 +94,11 @@ public class PlayerController : MonoBehaviour
             dialogPos = transform.position;
             dialogPos += new Vector2 (0f, 0f);
             Instantiate (NextLevelDialog, dialogPos, Quaternion.identity);
+            if (facingRight == true) {
+                player.transform.position = PortalSpawn.transform.position;
+            } else {
+                player.transform.position = PortalSpawn2.transform.position;
+            }
         }
 
         if(Input.GetKeyDown(KeyCode.UpArrow) && extraJumps > 0){

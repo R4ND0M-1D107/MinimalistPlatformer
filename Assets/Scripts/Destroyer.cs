@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Destroyer : MonoBehaviour
 {
-    public Canvas Dialog;
+    public GameObject Dialog;
 
     // Start is called before the first frame update
     void Start()
