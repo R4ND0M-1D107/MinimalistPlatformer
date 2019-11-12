@@ -10,6 +10,9 @@ public class EnemyController : MonoBehaviour
 
  private bool isShot;
 
+ AudioSource audioSource;
+ public AudioClip Scream;
+
    public GameObject Enemy;
 
    public Transform shotCheck;
@@ -19,6 +22,7 @@ public class EnemyController : MonoBehaviour
  // Use this for initialization
  void Start () {
      target = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+     audioSource = GetComponent<AudioSource>();
  }
  
  // Update is called once per frame
@@ -26,11 +30,14 @@ public class EnemyController : MonoBehaviour
      isShot = Physics2D.OverlapCircle(shotCheck.position, checkRadius, whatIsShot);     
 
  }
- 
+
  void Update () {
      if (isShot == true) {
+         audioSource.PlayOneShot(Scream, 0.7F);
          Score.ScoreValue +=5;
-         Destroy(Enemy);
+         if(audioSource.isPlaying){
+             Destroy(Enemy);
+         }    
      }
     
      transform.position = Vector2.MoveTowards(transform.position, target.position, speed * Time.deltaTime);

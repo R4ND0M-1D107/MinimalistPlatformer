@@ -13,6 +13,8 @@ public class PlayerController : MonoBehaviour
    public GameObject PortalSpawn2;
 
    public float Speed = 10f;
+   public float forceX = 200;
+   public float forceY = 200;
    public float jumpForce;
    
    private Rigidbody2D rb;
@@ -27,6 +29,10 @@ public class PlayerController : MonoBehaviour
    public Transform groundCheck;
    public float checkRadius;
    public LayerMask whatIsGround;
+
+   private bool isGrounded2;
+   public LayerMask whatIsGround2;
+
 
    private int extraJumps;
    public int extraJumpsValue;
@@ -59,12 +65,13 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
+        isGrounded2 = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround2);
         isSpiked = Physics2D.OverlapCircle(spikeCheck.position, checkRadius, whatIsSpikes);
         isKilled = Physics2D.OverlapCircle(killCheck.position, checkRadius, whatIsKill);
         LevelComplete = Physics2D.OverlapCircle(portalCheck.position, checkRadius, whatIsPortal);
         
         float Dirx = Input.GetAxis("Horizontal") ;
-        Debug.Log(Dirx);
+        
         rb.velocity = new Vector2(Dirx * Speed, rb.velocity.y);
 
         if(facingRight == false && Dirx > 0) {
@@ -72,6 +79,8 @@ public class PlayerController : MonoBehaviour
         } else if(facingRight == true && Dirx < 0) {
             Flip();
         }
+
+
     }
 
     void Update(){
@@ -80,7 +89,7 @@ public class PlayerController : MonoBehaviour
             Score.ScoreValue -= 5;
         }
         
-        if(isGrounded == true){
+        if(isGrounded == true || isGrounded2 == true){
             extraJumps = extraJumpsValue;
         }
 
@@ -101,12 +110,13 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if(Input.GetKeyDown(KeyCode.UpArrow) && extraJumps > 0){
+        if(Input.GetKeyDown(KeyCode.Space) && extraJumps > 0){
             rb.velocity = Vector2.up * jumpForce;
             extraJumps--;
         } else if(Input.GetKeyDown(KeyCode.UpArrow) && extraJumps == 0 && isGrounded == true){
             rb.velocity = Vector2.up * jumpForce;
         }
+
     }
 
     void Flip(){
@@ -116,6 +126,19 @@ public class PlayerController : MonoBehaviour
         transform.localScale = Scaler;
     }
 
+    void OnCollisionEnter2D(Collision2D col){
+        if (col.gameObject.layer == 15){
+            this.transform.parent = col.transform;
+        }
+    }
+    
+    void OnCollisionExit2D(Collision2D col) {
+        if (col.gameObject.layer == 15){
+            this.transform.parent = null;
+        }
+    }
+    
+    
     void fire (){
         fireballPos = transform.position;
         if (facingRight == true) {

@@ -12,7 +12,7 @@ public class FireballDestroyer : MonoBehaviour
     }
  
     IEnumerator Destroy(){
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(2);
         Destroy(fireball);
     }
 }
