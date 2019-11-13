@@ -286,7 +286,7 @@ Rigidbody2D:
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!114 &9011481746492354632
 MonoBehaviour:
@@ -302,7 +302,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 9011481746492354633}
   spawnPoint: {fileID: 0}
+  PortalSpawn: {fileID: 0}
+  PortalSpawn2: {fileID: 0}
   Speed: 5
+  forceX: 200
+  forceY: 200
   jumpForce: 8
   portalCheck: {fileID: 116286590}
   whatIsPortal:
@@ -313,6 +317,9 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 256
+  whatIsGround2:
+    serializedVersion: 2
+    m_Bits: 32768
   extraJumpsValue: 1
   spikeCheck: {fileID: 9011481745269521339}
   whatIsSpikes:
@@ -322,6 +329,8 @@ MonoBehaviour:
   whatIsKill:
     serializedVersion: 2
     m_Bits: 4096
+  NextLevelDialog: {fileID: 4435133190876920514, guid: 99b832b4d2b3f9547bcfd7fec683a520,
+    type: 3}
   FireballR: {fileID: 8840778079878881681, guid: 01861066f9ccf6947bf34b2c50c08a45,
     type: 3}
   FireballL: {fileID: 5808820589569842289, guid: 3e96c6463283a5a488112f3c495970df,

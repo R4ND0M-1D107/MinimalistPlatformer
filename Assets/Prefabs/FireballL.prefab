@@ -44,6 +44,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fireball: {fileID: 5808820589569842289}
+  explosionPrefab: {fileID: 0}
+  colCheck: {fileID: 7430417591120671359}
+  checkRadius: 0.1
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 4096
+  movableLayer:
+    serializedVersion: 2
+    m_Bits: 32768
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!1 &5808820589569842289
 GameObject:
   m_ObjectHideFlags: 0
@@ -57,6 +69,7 @@ GameObject:
   - component: {fileID: 5808820589569842292}
   - component: {fileID: 5808820589569842291}
   - component: {fileID: 5808820589569842290}
+  - component: {fileID: 1272587666}
   m_Layer: 13
   m_Name: FireballL
   m_TagString: Untagged
@@ -76,6 +89,7 @@ Transform:
   m_LocalScale: {x: 0.3, y: 0.3, z: 1}
   m_Children:
   - {fileID: 1834754712}
+  - {fileID: 7430417591120671359}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0.55, y: 0.87, z: 0}
@@ -161,9 +175,9 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -3.3527694, y: -5.6595035}
+  m_Offset: {x: -0.69149286, y: -0.44625866}
   serializedVersion: 2
-  m_Radius: 2.2532911
+  m_Radius: 1.4538803
 --- !u!114 &5808820589569842290
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -177,3 +191,52 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   velX: -5
+--- !u!95 &1272587666
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5808820589569842289}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 8e26866efa5dd7c43921e73a632fca03, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!1 &7427634155877477220
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7430417591120671359}
+  m_Layer: 0
+  m_Name: CollisionCheckL
+  m_TagString: Untagged
+  m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7430417591120671359
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7427634155877477220}
+  m_LocalRotation: {x: -0.0047995253, y: -0.007592033, z: 0.000036439622, w: 0.9999597}
+  m_LocalPosition: {x: -2.1, y: -0.3, z: 9.1}
+  m_LocalScale: {x: 3.3327954, y: 3.3331182, z: 1.0007529}
+  m_Children: []
+  m_Father: {fileID: 5808820589569842294}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
