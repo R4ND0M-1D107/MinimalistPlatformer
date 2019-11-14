@@ -40,13 +40,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 977201839}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 95a13587e2e246149971423f67c3e04f, type: 3}
+  m_Script: {fileID: 11500000, guid: 217ca1aac9f641f46829700d7af75a00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   fireball: {fileID: 8840778079878881681}
-  explosionPrefab: {fileID: 0}
   colCheck: {fileID: 4752572258320809349}
-  checkRadius: 0.1
+  checkRadius: 0
   enemyLayer:
     serializedVersion: 2
     m_Bits: 4096
@@ -56,6 +55,7 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 256
+  animator: {fileID: 1795811021}
 --- !u!1 &8840778079878881681
 GameObject:
   m_ObjectHideFlags: 0
@@ -68,8 +68,8 @@ GameObject:
   - component: {fileID: 8840778079878881682}
   - component: {fileID: 8840778079878881683}
   - component: {fileID: 8840778079878881680}
-  - component: {fileID: 8840778079878881684}
   - component: {fileID: 1795811021}
+  - component: {fileID: 1827855341552834007}
   m_Layer: 13
   m_Name: FireballR
   m_TagString: Untagged
@@ -178,19 +178,6 @@ CircleCollider2D:
   m_Offset: {x: 0.56827873, y: -0.44581085}
   serializedVersion: 2
   m_Radius: 1.469609
---- !u!114 &8840778079878881684
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8840778079878881681}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 96725eb9f71287b46bc42ca2fcd55079, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  velX: 5
 --- !u!95 &1795811021
 Animator:
   serializedVersion: 3
@@ -210,6 +197,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1827855341552834007
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8840778079878881681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10ce05007b0e33c478ca3c9d1abfc373, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8986740076847629381
 GameObject:
   m_ObjectHideFlags: 0

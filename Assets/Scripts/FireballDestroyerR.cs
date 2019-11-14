@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FireballDestroyer : MonoBehaviour
+public class FireballDestroyerR : MonoBehaviour
 {
     
     public GameObject fireball;
-    public Transform explosionPrefab;
 
     private bool isColliding;
     private bool isColliding2;
@@ -16,6 +15,7 @@ public class FireballDestroyer : MonoBehaviour
     public LayerMask enemyLayer;
     public LayerMask movableLayer;
     public LayerMask groundLayer;
+    public Animator animator;
 
 
     void Start(){
@@ -33,12 +33,16 @@ public class FireballDestroyer : MonoBehaviour
     {
         if(isColliding == true || isColliding2 == true || isColliding3 == true)
         {
-            Destroy(fireball);
+            FireballR.velX = 0F;
+            animator.SetBool("Destroyed", true);
+            Destroy(fireball, 0.667f);
         }
     }
     
     IEnumerator Destroy(){
         yield return new WaitForSeconds(2);
-        Destroy(fireball);
+        FireballR.velX = 0f;
+        animator.SetBool("Destroyed", true);
+        Destroy(fireball, 0.667f);
     }
 }

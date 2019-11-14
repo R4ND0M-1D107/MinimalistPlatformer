@@ -6,7 +6,6 @@ public class EnemyController : MonoBehaviour
 {
     
     private Transform target;
-    public Renderer rend;
     private bool NeverDone;
 
     public float speed;
@@ -29,8 +28,6 @@ public class EnemyController : MonoBehaviour
     {
         target = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
         audioSource = GetComponent<AudioSource>();
-        rend = GetComponent<Renderer>();
-        rend.enabled = true;
         NeverDone = true;
         Stalk = true;
     }
@@ -55,19 +52,30 @@ public class EnemyController : MonoBehaviour
 
     void Update()
     {
-        StalkPlayer();
-        if (isShot == true)
+        if (Mathf.Abs(target.position.x - transform.position.x) > 20)
         {
-            if (NeverDone == true)
+            Stalk = false;
+        } else if (Mathf.Abs(target.position.x - transform.position.x) <= 20)
+        {
+            if (isShot == true)
             {
-                NeverDone = false;
-                Stalk = false;
-                audioSource.Play();
-                Score.ScoreValue += 5;
-                Destroy(Enemy, audioSource.clip.length);
-            }
+                if (NeverDone == true)
+                {
+                    NeverDone = false;
+                    Stalk = false;
+                    audioSource.Play();
+                    Score.ScoreValue += 5;
+                    Destroy(Enemy, audioSource.clip.length);
+                } 
 
+            }
+            else
+            {
+                Stalk = true;
+            }
         }
+        StalkPlayer();
+        
     }
 
     void StalkPlayer()
