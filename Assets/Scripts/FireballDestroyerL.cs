@@ -15,7 +15,8 @@ public class FireballDestroyerL : MonoBehaviour
     public LayerMask enemyLayer;
     public LayerMask movableLayer;
     public LayerMask groundLayer;
-    public Animator animator;
+    public GameObject Explosion;
+    public Transform fireballPos;
 
 
     void Start(){
@@ -33,16 +34,14 @@ public class FireballDestroyerL : MonoBehaviour
     {
         if(isColliding == true || isColliding2 == true || isColliding3 == true)
         {
-            FireballL.velX = 0F;
-            animator.SetBool("Destroyed", true);
-            Destroy(fireball, 0.667f);
+            Instantiate(Explosion, fireballPos.position, Quaternion.identity);
+            Destroy(fireball);
         }
     }
     
     IEnumerator Destroy(){
-        yield return new WaitForSeconds(2);
-        FireballL.velX = 0f;
-        animator.SetBool("Destroyed", true);
-        Destroy(fireball, 0.667f);
+        yield return new WaitForSeconds(0.4f);
+        Instantiate(Explosion, fireballPos.position, Quaternion.identity);
+        Destroy(fireball);
     }
 }

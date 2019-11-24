@@ -8,6 +8,8 @@ public class PlayerController : MonoBehaviour
 
    public GameObject player;
 
+    public Animator animator;
+
    public GameObject spawnPoint;
    public GameObject PortalSpawn;
    public GameObject PortalSpawn2;
@@ -39,11 +41,14 @@ public class PlayerController : MonoBehaviour
    
     private bool isSpiked;
     public Transform spikeCheck;
+    private bool isSpiked2;
+    public Transform spikeCheck2;
     public LayerMask whatIsSpikes;
 
-    private bool isKilled;
-    public Transform killCheck;
-    public LayerMask whatIsKill;
+    private bool isShrapneled;
+    public Transform shrapnelCheck;
+    public LayerMask whatIsShrapnel;
+    public float ShrapnelCheckRadius;
 
     public GameObject NextLevelDialog;
     Vector2 dialogPos;
@@ -53,12 +58,16 @@ public class PlayerController : MonoBehaviour
     Vector2 fireballPos;
     public float fireRate = 2.5f;
     float nextFire = 0.0f;
-    
+
+    public Transform Background;
+
+    public Transform muzzle;
     // Start is called before the first frame update
     void Start()
     {
        extraJumps = extraJumpsValue;
         rb = GetComponent <Rigidbody2D>();
+        animator = gameObject.GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -67,8 +76,9 @@ public class PlayerController : MonoBehaviour
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
         isGrounded2 = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround2);
         isSpiked = Physics2D.OverlapCircle(spikeCheck.position, checkRadius, whatIsSpikes);
-        isKilled = Physics2D.OverlapCircle(killCheck.position, checkRadius, whatIsKill);
+        isSpiked2 = Physics2D.OverlapCircle(spikeCheck2.position, checkRadius, whatIsSpikes);
         LevelComplete = Physics2D.OverlapCircle(portalCheck.position, checkRadius, whatIsPortal);
+        isShrapneled = Physics2D.OverlapCircle(shrapnelCheck.position, ShrapnelCheckRadius, whatIsShrapnel);
         
         float Dirx = Input.GetAxis("Horizontal") ;
         
@@ -79,18 +89,31 @@ public class PlayerController : MonoBehaviour
         } else if(facingRight == true && Dirx < 0) {
             Flip();
         }
+        if (Dirx != 0 && isGrounded == true || isGrounded2 == true && Dirx != 0)
+        {
+            animator.SetBool("IsWalking", true);
+        }else
+        {
+            animator.SetBool("IsWalking", false);
+        }
 
 
     }
 
     void Update(){
-        if(isSpiked == true || isKilled == true){
+        if(isSpiked == true || isSpiked2 == true){
             player.transform.position = spawnPoint.transform.position;
             Score.ScoreValue -= 5;
         }
         
         if(isGrounded == true || isGrounded2 == true){
             extraJumps = extraJumpsValue;
+        }
+
+        if(isShrapneled == true)
+        {
+            player.transform.position = spawnPoint.transform.position;
+            Score.ScoreValue -= 5;
         }
 
         if (Input.GetButtonDown ("Fire1") && Time.time > nextFire){
@@ -110,6 +133,14 @@ public class PlayerController : MonoBehaviour
             }
         }
 
+        if(isGrounded == false && isGrounded2 == false)
+        {
+            animator.SetBool("IsJumping", true);
+        }else
+        {
+            animator.SetBool("IsJumping", false);
+        }
+
         if(Input.GetKeyDown(KeyCode.Space) && extraJumps > 0){
             rb.velocity = Vector2.up * jumpForce;
             extraJumps--;
@@ -124,11 +155,20 @@ public class PlayerController : MonoBehaviour
         Vector3 Scaler = transform.localScale;
         Scaler.x *= -1;
         transform.localScale = Scaler;
+        Vector3 Scaler2 = Background.localScale;
+        Scaler2.x *= -1;
+        Background.localScale = Scaler2;
     }
 
+    // movable - move with platform
     void OnCollisionEnter2D(Collision2D col){
         if (col.gameObject.layer == 15){
             this.transform.parent = col.transform;
+        }
+        if (col.gameObject.layer == 12)
+        {
+            player.transform.position = spawnPoint.transform.position;
+            Score.ScoreValue -= 5;
         }
     }
     
@@ -137,16 +177,15 @@ public class PlayerController : MonoBehaviour
             this.transform.parent = null;
         }
     }
-    
-    
-    void fire (){
+
+        void fire (){
         fireballPos = transform.position;
         if (facingRight == true) {
             fireballPos += new Vector2 (+2f, +1f);
-            Instantiate (FireballR, fireballPos, Quaternion.identity);
+            Instantiate (FireballR, muzzle.position, Quaternion.identity);
         } else {
             fireballPos += new Vector2 (-2f, +1f);
-            Instantiate (FireballL, fireballPos, Quaternion.identity);
+            Instantiate (FireballL, muzzle.position, Quaternion.identity);
         }
     }
 

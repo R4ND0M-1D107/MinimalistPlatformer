@@ -51,19 +51,17 @@ public class HenController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (FacingRight == true)
-        {
-            rb.velocity = new Vector2(1 * Speed, rb.velocity.y);
-        }
-
-        if (FacingRight == false)
-        {
-            rb.velocity = new Vector2(-1 * Speed, rb.velocity.y);
-        }
-
-        if (Time.time > nextJump)
+        if (FacingRight == true && Time.time > nextJump)
         {
             rb.velocity = Vector2.up * jumpForce;
+            rb.velocity = new Vector2(1 * Speed, rb.velocity.y);
+            nextJump = Time.time + jumpRate;
+        }
+
+        if (FacingRight == false && Time.time > nextJump)
+        {
+            rb.velocity = Vector2.up * jumpForce;
+            rb.velocity = new Vector2(-1 * Speed, rb.velocity.y);
             nextJump = Time.time + jumpRate;
         }
 

@@ -12,7 +12,7 @@ public class FireballL : MonoBehaviour
     void Start()
     {
         rb3 = GetComponent<Rigidbody2D> ();
-        velX = -5f;
+        velX = -35f;
     }
 
     // Update is called once per frame

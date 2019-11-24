@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FireballDestroyerR : MonoBehaviour
 {
-    
+
     public GameObject fireball;
 
     private bool isColliding;
@@ -15,11 +15,13 @@ public class FireballDestroyerR : MonoBehaviour
     public LayerMask enemyLayer;
     public LayerMask movableLayer;
     public LayerMask groundLayer;
-    public Animator animator;
+    public GameObject Explosion;
+    public Transform fireballPos;
 
 
-    void Start(){
-        StartCoroutine (Destroy());
+    void Start()
+    {
+        StartCoroutine(Destroy());
     }
 
     void FixedUpdate()
@@ -28,21 +30,20 @@ public class FireballDestroyerR : MonoBehaviour
         isColliding2 = Physics2D.OverlapCircle(colCheck.position, checkRadius, movableLayer);
         isColliding3 = Physics2D.OverlapCircle(colCheck.position, checkRadius, groundLayer);
     }
- 
+
     void Update()
     {
-        if(isColliding == true || isColliding2 == true || isColliding3 == true)
+        if (isColliding == true || isColliding2 == true || isColliding3 == true)
         {
-            FireballR.velX = 0F;
-            animator.SetBool("Destroyed", true);
-            Destroy(fireball, 0.667f);
+            Instantiate(Explosion, fireballPos.position, Quaternion.identity);
+            Destroy(fireball);
         }
     }
-    
-    IEnumerator Destroy(){
-        yield return new WaitForSeconds(2);
-        FireballR.velX = 0f;
-        animator.SetBool("Destroyed", true);
-        Destroy(fireball, 0.667f);
+
+    IEnumerator Destroy()
+    {
+        yield return new WaitForSeconds(0.4f);
+        Instantiate(Explosion, fireballPos.position, Quaternion.identity);
+        Destroy(fireball);
     }
 }
