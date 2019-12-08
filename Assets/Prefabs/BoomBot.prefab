@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2958864519473151697}
   - component: {fileID: 2958864519473151696}
   - component: {fileID: 2958864519473151699}
-  - component: {fileID: 1006874578}
+  - component: {fileID: 1325244442919142191}
   m_Layer: 0
   m_Name: BoomBot
   m_TagString: Untagged
@@ -97,8 +97,8 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 5
-  m_AngularDrag: 8.1
+  m_LinearDrag: 0
+  m_AngularDrag: 5.27
   m_GravityScale: 15
   m_Material: {fileID: 0}
   m_Interpolate: 0
@@ -226,7 +226,7 @@ MonoBehaviour:
   Self2: {fileID: 2958864519473151695}
   Shrapnel: {fileID: 4355625436121879636, guid: f4f1da3cf8a26ef4d80f8c61a5452c0c,
     type: 3}
---- !u!82 &1006874578
+--- !u!82 &1325244442919142191
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -237,7 +237,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 398baa01fa11fdb41a972e4b9a1eb24f, type: 3}
-  m_PlayOnAwake: 0
+  m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -246,7 +246,7 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 0
+  MinDistance: 1
   MaxDistance: 500
   Pan2D: 0
   rolloffMode: 0
