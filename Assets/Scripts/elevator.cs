@@ -18,20 +18,11 @@ public class elevator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (transform.position.y > Up)
-        {
-            moveUp = false;
-        }
-
-        if (transform.position.y < Down)
-        {
-            moveUp = true;
-        }
-        if (moveUp == true && coliding == true)
+        if (transform.position.y < Up  && coliding == true)
         {
             transform.position = new Vector2(transform.position.x, transform.position.y + moveSpeed * Time.deltaTime);
         }
-        else if (moveUp == false && coliding == false)
+        else if (transform.position.y > Down  && coliding == false)
         {
             transform.position = new Vector2(transform.position.x, transform.position.y - moveSpeed * Time.deltaTime);
         }

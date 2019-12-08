@@ -6,67 +6,54 @@ using UnityEngine.SceneManagement;
 public class PlayerController : MonoBehaviour
 {
 
-   public GameObject player;
+    public GameObject player;
 
     public Animator animator;
 
-   public GameObject spawnPoint;
-   public GameObject PortalSpawn;
-   public GameObject PortalSpawn2;
+    public GameObject spawnPoint;
+    public GameObject PortalSpawn;
+    public GameObject PortalSpawn2;
 
-   public float Speed = 10f;
-   public float forceX = 200;
-   public float forceY = 200;
-   public float jumpForce;
-   
-   private Rigidbody2D rb;
+    public float Speed = 10f;
+    public float forceX = 200;
+    public float forceY = 200;
+    public float jumpForce;
 
-   private bool facingRight = true;
+    private Rigidbody2D rb;
 
-   private bool LevelComplete;
-   public Transform portalCheck;
-   public LayerMask whatIsPortal;
+    private bool facingRight = true;
 
-   private bool isGrounded;
-   public Transform groundCheck;
-   public float checkRadius;
-   public LayerMask whatIsGround;
+    private bool LevelComplete;
+    public Transform portalCheck;
+    public LayerMask whatIsPortal;
 
-   private bool isGrounded2;
-   public LayerMask whatIsGround2;
+    private bool isGrounded;
+    public Transform groundCheck;
+    public float checkRadius;
+    public LayerMask whatIsGround;
+
+    private bool isGrounded2;
+    public LayerMask whatIsGround2;
 
 
-   private int extraJumps;
-   public int extraJumpsValue;
-   
-    private bool isSpiked;
-    public Transform spikeCheck;
-    private bool isSpiked2;
-    public Transform spikeCheck2;
-    public LayerMask whatIsSpikes;
-
-    private bool isShrapneled;
-    public Transform shrapnelCheck;
-    public LayerMask whatIsShrapnel;
-    public float ShrapnelCheckRadius;
+    private int extraJumps;
+    public int extraJumpsValue;
 
     public GameObject NextLevelDialog;
     Vector2 dialogPos;
-    
+
     public GameObject FireballR;
     public GameObject FireballL;
     Vector2 fireballPos;
     public float fireRate = 2.5f;
     float nextFire = 0.0f;
 
-    public Transform Background;
-
     public Transform muzzle;
     // Start is called before the first frame update
     void Start()
     {
-       extraJumps = extraJumpsValue;
-        rb = GetComponent <Rigidbody2D>();
+        extraJumps = extraJumpsValue;
+        rb = GetComponent<Rigidbody2D>();
         animator = gameObject.GetComponent<Animator>();
     }
 
@@ -75,24 +62,21 @@ public class PlayerController : MonoBehaviour
     {
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
         isGrounded2 = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround2);
-        isSpiked = Physics2D.OverlapCircle(spikeCheck.position, checkRadius, whatIsSpikes);
-        isSpiked2 = Physics2D.OverlapCircle(spikeCheck2.position, checkRadius, whatIsSpikes);
         LevelComplete = Physics2D.OverlapCircle(portalCheck.position, checkRadius, whatIsPortal);
-        isShrapneled = Physics2D.OverlapCircle(shrapnelCheck.position, ShrapnelCheckRadius, whatIsShrapnel);
-        
-        float Dirx = Input.GetAxis("Horizontal") ;
-        
+
+        float Dirx = Input.GetAxis("Horizontal");
+
         rb.velocity = new Vector2(Dirx * Speed, rb.velocity.y);
 
-        if(facingRight == false && Dirx > 0) {
+        if (facingRight == false && Dirx > 0) {
             Flip();
-        } else if(facingRight == true && Dirx < 0) {
+        } else if (facingRight == true && Dirx < 0) {
             Flip();
         }
         if (Dirx != 0 && isGrounded == true || isGrounded2 == true && Dirx != 0)
         {
             animator.SetBool("IsWalking", true);
-        }else
+        } else
         {
             animator.SetBool("IsWalking", false);
         }
@@ -100,32 +84,22 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    void Update(){
-        if(isSpiked == true || isSpiked2 == true){
-            player.transform.position = spawnPoint.transform.position;
-            Score.ScoreValue -= 5;
-        }
-        
-        if(isGrounded == true || isGrounded2 == true){
+    void Update() {
+
+        if (isGrounded == true || isGrounded2 == true) {
             extraJumps = extraJumpsValue;
         }
 
-        if(isShrapneled == true)
-        {
-            player.transform.position = spawnPoint.transform.position;
-            Score.ScoreValue -= 5;
-        }
-
-        if (Input.GetButtonDown ("Fire1") && Time.time > nextFire){
+        if (Input.GetButtonDown("Fire1") && Time.time > nextFire) {
 
             nextFire = Time.time + fireRate;
-            fire ();
+            fire();
         }
 
         if (LevelComplete == true) {
             dialogPos = transform.position;
-            dialogPos += new Vector2 (0f, 0f);
-            Instantiate (NextLevelDialog, dialogPos, Quaternion.identity);
+            dialogPos += new Vector2(0f, 0f);
+            Instantiate(NextLevelDialog, dialogPos, Quaternion.identity);
             if (facingRight == true) {
                 player.transform.position = PortalSpawn.transform.position;
             } else {
@@ -133,39 +107,36 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if(isGrounded == false && isGrounded2 == false)
+        if (isGrounded == false && isGrounded2 == false)
         {
             animator.SetBool("IsJumping", true);
-        }else
+        } else
         {
             animator.SetBool("IsJumping", false);
         }
 
-        if(Input.GetKeyDown(KeyCode.Space) && extraJumps > 0){
+        if (Input.GetKeyDown(KeyCode.Space) && extraJumps > 0) {
             rb.velocity = Vector2.up * jumpForce;
             extraJumps--;
-        } else if(Input.GetKeyDown(KeyCode.Space) && extraJumps == 0 && isGrounded == true){
+        } else if (Input.GetKeyDown(KeyCode.Space) && extraJumps == 0 && isGrounded == true) {
             rb.velocity = Vector2.up * jumpForce;
         }
 
     }
 
-    void Flip(){
+    void Flip() {
         facingRight = !facingRight;
         Vector3 Scaler = transform.localScale;
         Scaler.x *= -1;
         transform.localScale = Scaler;
-        Vector3 Scaler2 = Background.localScale;
-        Scaler2.x *= -1;
-        Background.localScale = Scaler2;
     }
 
     // movable - move with platform
-    void OnCollisionEnter2D(Collision2D col){
-        if (col.gameObject.layer == 15){
+    void OnCollisionEnter2D(Collision2D col) {
+        if (col.gameObject.layer == 15) {
             this.transform.parent = col.transform;
         }
-        if (col.gameObject.layer == 12)
+        if (col.gameObject.layer == 12 || col.gameObject.layer == 17 || col.gameObject.layer == 9)
         {
             player.transform.position = spawnPoint.transform.position;
             Score.ScoreValue -= 5;
