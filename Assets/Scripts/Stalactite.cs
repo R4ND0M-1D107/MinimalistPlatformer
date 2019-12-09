@@ -9,6 +9,7 @@ public class Stalactite : MonoBehaviour
     bool Colliding;
     public GameObject Self;
     bool Under;
+    public GameObject Sound;
 
     // Start is called before the first frame update
     void Start()
@@ -26,10 +27,11 @@ public class Stalactite : MonoBehaviour
         if (Under == true)
         {
             transform.position = new Vector2(transform.position.x, transform.position.y - Speed * Time.deltaTime);
-            if (Colliding == true)
-            {
-                Destroy(Self);
-            }
+        }
+        if (Colliding == true)
+        {
+            Instantiate(Sound, transform.position, Quaternion.identity);
+            Destroy(Self);
         }
     }
 

@@ -11,6 +11,7 @@ public class BoomBot : MonoBehaviour
     public GameObject Shrapnel;
     private bool NeverDone;
     AudioSource SD;
+    bool Stalk;
 
     
     // Start is called before the first frame update
@@ -19,6 +20,7 @@ public class BoomBot : MonoBehaviour
         target = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
         NeverDone = true;
         SD = GetComponent<AudioSource>();
+        Stalk = true;
     }
 
     private void FixedUpdate()
@@ -43,13 +45,14 @@ public class BoomBot : MonoBehaviour
             StartCoroutine(Death());
             NeverDone = false;
         }
-        if (Mathf.Abs(target.position.x - transform.position.x) < 20)
+        if (Mathf.Abs(target.position.x - transform.position.x) < 20 && Stalk == true)
         {
             transform.position = Vector2.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
         }
     }
 
     private IEnumerator Death() {
+        Stalk = false;
         SD.Play();
         yield return new WaitForSeconds(1.5f);
         for (int i = 1; i < 7; i++) {
