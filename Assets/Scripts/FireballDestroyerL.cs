@@ -20,7 +20,7 @@ public class FireballDestroyerL : MonoBehaviour
 
 
     void Start(){
-        StartCoroutine (Destroy());
+       
     }
 
     void FixedUpdate()

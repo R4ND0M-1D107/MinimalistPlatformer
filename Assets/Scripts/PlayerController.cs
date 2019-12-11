@@ -49,6 +49,7 @@ public class PlayerController : MonoBehaviour
     float nextFire = 0.0f;
 
     public Transform muzzle;
+    public static bool playerDead = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -140,6 +141,7 @@ public class PlayerController : MonoBehaviour
         {
             player.transform.position = spawnPoint.transform.position;
             Score.ScoreValue -= 5;
+            playerDead = true;
         }
     }
     
@@ -150,15 +152,10 @@ public class PlayerController : MonoBehaviour
     }
 
         void fire (){
-        fireballPos = transform.position;
         if (facingRight == true) {
-            fireballPos += new Vector2 (+2f, +1f);
             Instantiate (FireballR, muzzle.position, Quaternion.identity);
         } else {
-            fireballPos += new Vector2 (-2f, +1f);
             Instantiate (FireballL, muzzle.position, Quaternion.identity);
         }
     }
-
-
 }

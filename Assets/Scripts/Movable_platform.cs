@@ -5,7 +5,7 @@ using UnityEngine;
 public class Movable_platform : MonoBehaviour
 {
 
-    float dirX, moveSpeed =3f;
+    float dirX, moveSpeed =5f;
     bool moveRight = true;
     public float left = 20.5f;
     public float right = 29.5f;
