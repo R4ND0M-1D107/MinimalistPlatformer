@@ -28,7 +28,7 @@ public class Closer : MonoBehaviour
         }
         if ((Player.position.x - 5)< transform.position.x && moveUp == true)
         {
-            transform.position = new Vector2(transform.position.x, transform.position.y + Speed * Time.deltaTime);
+            transform.position = new Vector2(transform.position.x, transform.position.y + Speed * 3 * Time.deltaTime);
         }
         else if ((Player.position.x - 5)> transform.position.x && moveUp == false)
         {

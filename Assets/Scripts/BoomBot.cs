@@ -48,13 +48,16 @@ public class BoomBot : MonoBehaviour
         if (Mathf.Abs(target.position.x - transform.position.x) < 20 && Stalk == true)
         {
             transform.position = Vector2.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
+        }else if (Mathf.Abs(target.position.x - transform.position.x) < 20 && Stalk == false)
+        {
+            transform.position = Vector2.MoveTowards(transform.position, target.position, speed * 0.4f * Time.deltaTime);
         }
     }
 
     private IEnumerator Death() {
-        Stalk = false;
+        Stalk = true;
         SD.Play();
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds((SD.clip.length - 1f));
         for (int i = 1; i < 7; i++) {
             Instantiate(Shrapnel, Self2.position, Quaternion.identity);
         }

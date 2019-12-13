@@ -6,7 +6,9 @@ using UnityEngine.UI;
 public class Score : MonoBehaviour
 {
     public static int ScoreValue;
+    public static int DeathCount;
     Text score;
+    public bool coin;
     // Start is called before the first frame update
     void Start()
     {
@@ -17,6 +19,11 @@ public class Score : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        score.text = "Score: " + ScoreValue;
+        if (coin == true)
+        {
+            score.text = "Coins : " + ScoreValue;
+        }else if (coin == false) {
+            score.text = "Deaths : " + DeathCount;
+        }
     }
 }

@@ -4,21 +4,24 @@ using UnityEngine;
 
 public class movable_spikes : MonoBehaviour
 {
-    float dirY, moveSpeed = 3f;
+    float dirY, moveSpeed = 2.5f;
     bool moveUp = true;
     public float Down = 20.5f;
     public float Up = 29.5f;
+    AudioSource Fall;
+    Rigidbody2D rb;
+    public GameObject spikePart;
 
+    private void Start()
+    {
+        Fall = GetComponent<AudioSource>();
+        rb = spikePart.GetComponent<Rigidbody2D>();
+    }
     void Update()
     {
         if (transform.position.y > Up)
         {
             moveUp = false;
-        }
-
-        if (transform.position.y < Down)
-        {
-            moveUp = true;
         }
 
         if (moveUp)
@@ -27,8 +30,14 @@ public class movable_spikes : MonoBehaviour
         }
         else
         {
-            transform.position = new Vector2(transform.position.x, transform.position.y - moveSpeed * Time.deltaTime);
+            transform.position = new Vector2(transform.position.x, transform.position.y - moveSpeed * 6 * Time.deltaTime);
         }
 
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        Fall.Play();
+        moveUp = true;
     }
 }

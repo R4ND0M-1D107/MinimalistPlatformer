@@ -7,7 +7,6 @@ public class elevator : MonoBehaviour
     public float Down = 20.5f;
     public float Up = 29.5f;
     float dirY, moveSpeed = 7f;
-    bool moveUp = true;
     bool coliding = false;
     // Start is called before the first frame update
     void Start()

@@ -56,6 +56,7 @@ public class PlayerController : MonoBehaviour
         extraJumps = extraJumpsValue;
         rb = GetComponent<Rigidbody2D>();
         animator = gameObject.GetComponent<Animator>();
+        
     }
 
     // Update is called once per frame
@@ -140,7 +141,7 @@ public class PlayerController : MonoBehaviour
         if (col.gameObject.layer == 12 || col.gameObject.layer == 17 || col.gameObject.layer == 9)
         {
             player.transform.position = spawnPoint.transform.position;
-            Score.ScoreValue -= 5;
+            Score.DeathCount++ ;
             playerDead = true;
         }
     }

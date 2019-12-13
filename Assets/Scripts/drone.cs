@@ -21,7 +21,8 @@ public class drone : MonoBehaviour
     bool work;
     bool shieldActive;
     public Transform movePoint;
-    public Rigidbody2D rb;
+    Rigidbody2D rb;
+    public GameObject Blockade;
     // Start is called before the first frame update
     void Start()
     {
@@ -141,6 +142,7 @@ public class drone : MonoBehaviour
             }
         }else if (shotCount == 9)
         {
+            Destroy(Blockade);
             Death();
         }
 
@@ -193,7 +195,7 @@ public class drone : MonoBehaviour
             Fire();
             yield return new WaitForSeconds(0.15f);
             Fire();
-            yield return new WaitForSeconds(0.15f);
+            yield return new WaitForSeconds(0.25f);
             ShootingDone = true;
             shieldActive = true;
             ShieldCreate();
