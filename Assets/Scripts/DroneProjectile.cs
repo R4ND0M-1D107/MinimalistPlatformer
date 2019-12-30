@@ -5,7 +5,7 @@ using UnityEngine;
 public class DroneProjectile : MonoBehaviour
 {
     public static float velX;
-    float velY = 0f;
+    float velY;
     Rigidbody2D rb3;
     public GameObject self;
 

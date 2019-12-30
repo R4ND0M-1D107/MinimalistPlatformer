@@ -15,9 +15,13 @@ public class PlayerController : MonoBehaviour
     public GameObject PortalSpawn2;
 
     public float Speed = 10f;
-    public float forceX = 200;
-    public float forceY = 200;
     public float jumpForce;
+    public float fallMultiplier = 2.5f;
+    public float lowJumpMultiplier = 2f;
+    public float DropJumpMultiplier = 20f;
+
+    public GameObject LandingAnim;
+    public Transform Ground;
 
     private Rigidbody2D rb;
 
@@ -27,43 +31,47 @@ public class PlayerController : MonoBehaviour
     public Transform portalCheck;
     public LayerMask whatIsPortal;
 
+    public float attackRange = 0.5f;
+    public Transform attackPoint;
+    public LayerMask enemyLayers;
+
     private bool isGrounded;
-    public Transform groundCheck;
     public float checkRadius;
-    public LayerMask whatIsGround;
 
-    private bool isGrounded2;
-    public LayerMask whatIsGround2;
-
-
-    private int extraJumps;
-    public int extraJumpsValue;
+    private int extraJumps = 1;
 
     public GameObject NextLevelDialog;
     Vector2 dialogPos;
 
     public GameObject FireballR;
     public GameObject FireballL;
-    Vector2 fireballPos;
     public float fireRate = 2.5f;
     float nextFire = 0.0f;
-
+    bool JumpsReset;
     public Transform muzzle;
     public static bool playerDead = false;
-    // Start is called before the first frame update
+    public static int Health;
+    public static int maxHealth = 5;
+    bool Immunity;
+    public GameObject HaloRing;
+    SpriteRenderer spriteRenderer;
+    public GameObject shield;
+    SpriteRenderer shieldSprite;
+    PolygonCollider2D shieldCollider;
+    
     void Start()
     {
-        extraJumps = extraJumpsValue;
         rb = GetComponent<Rigidbody2D>();
         animator = gameObject.GetComponent<Animator>();
+        Health = maxHealth;
+        spriteRenderer = HaloRing.GetComponent<SpriteRenderer>();
+        shieldSprite = shield.GetComponent<SpriteRenderer>();
+        shieldCollider = shield.GetComponent<PolygonCollider2D>();
         
     }
-
-    // Update is called once per frame
+   
     void FixedUpdate()
     {
-        isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
-        isGrounded2 = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround2);
         LevelComplete = Physics2D.OverlapCircle(portalCheck.position, checkRadius, whatIsPortal);
 
         float Dirx = Input.GetAxis("Horizontal");
@@ -72,10 +80,11 @@ public class PlayerController : MonoBehaviour
 
         if (facingRight == false && Dirx > 0) {
             Flip();
+            
         } else if (facingRight == true && Dirx < 0) {
             Flip();
         }
-        if (Dirx != 0 && isGrounded == true || isGrounded2 == true && Dirx != 0)
+        if (Dirx != 0 && isGrounded == true)
         {
             animator.SetBool("IsWalking", true);
         } else
@@ -87,15 +96,29 @@ public class PlayerController : MonoBehaviour
     }
 
     void Update() {
-
-        if (isGrounded == true || isGrounded2 == true) {
-            extraJumps = extraJumpsValue;
+        if(rb.velocity.y < 0)
+        {
+            rb.velocity += Vector2.up * Physics2D.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
+        }else if (rb.velocity.y > 0 && !Input.GetButton("Jump"))
+        {
+            rb.velocity += Vector2.up * Physics2D.gravity.y * (lowJumpMultiplier - 1) * Time.deltaTime;
         }
-
+        
         if (Input.GetButtonDown("Fire1") && Time.time > nextFire) {
 
             nextFire = Time.time + fireRate;
             fire();
+        }
+        if (Input.GetKey("c") && isGrounded == false && SkillHolder.DropJump == true)
+        {
+            rb.velocity += Vector2.up * Physics2D.gravity.y * (DropJumpMultiplier - 1) * Time.deltaTime;
+        }
+
+        if (Input.GetKey("q") && SkillHolder.Shield == true)
+        {
+            shieldCollider.enabled = true;
+            shieldSprite.enabled = true;
+            StartCoroutine(EndShield());
         }
 
         if (LevelComplete == true) {
@@ -109,7 +132,19 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if (isGrounded == false && isGrounded2 == false)
+        if (JumpsReset == false)
+        {
+            if(SkillHolder.DoubleJump == true)
+            {
+                extraJumps = 2;
+            }else if(SkillHolder.DoubleJump == false)
+            {
+                extraJumps = 1;
+            }
+            
+            JumpsReset = true;
+        }
+        if (isGrounded == false)
         {
             animator.SetBool("IsJumping", true);
         } else
@@ -120,8 +155,10 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && extraJumps > 0) {
             rb.velocity = Vector2.up * jumpForce;
             extraJumps--;
-        } else if (Input.GetKeyDown(KeyCode.Space) && extraJumps == 0 && isGrounded == true) {
-            rb.velocity = Vector2.up * jumpForce;
+        }
+        if(Health <= 0)
+        {
+            SceneManager.LoadScene("MainMenu");
         }
 
     }
@@ -135,28 +172,87 @@ public class PlayerController : MonoBehaviour
 
     // movable - move with platform
     void OnCollisionEnter2D(Collision2D col) {
+        if (Input.GetKey("c"))
+        {
+            Instantiate(LandingAnim, Ground.position, Quaternion.identity);
+        }
+        if (col.gameObject.layer == 8)
+        {
+            isGrounded = true;
+            JumpsReset = false;
+            
+        }
         if (col.gameObject.layer == 15) {
             this.transform.parent = col.transform;
+            isGrounded = true;
+            JumpsReset = false;
         }
-        if (col.gameObject.layer == 12 || col.gameObject.layer == 17 || col.gameObject.layer == 9)
+        if (col.gameObject.layer == 9)
         {
-            player.transform.position = spawnPoint.transform.position;
+            /*player.transform.position = spawnPoint.transform.position;
             Score.DeathCount++ ;
             playerDead = true;
+            */
+            if (Immunity == false)
+            {
+                Vector3 temp = new Vector3(0, 15f, 0);
+                Immunity = true;
+                player.transform.position += temp;
+                Health--;
+                spriteRenderer.enabled = true;
+                StartCoroutine(EndImumnity());
+            }
+        }
+        if (col.gameObject.layer == 17) {
+            if (Immunity == false)
+            {
+                Immunity = true;
+                Health--;
+                spriteRenderer.enabled = true;
+                StartCoroutine(EndImumnity());
+            }
         }
     }
     
     void OnCollisionExit2D(Collision2D col) {
         if (col.gameObject.layer == 15){
             this.transform.parent = null;
+            isGrounded = false;
+        }
+        if (col.gameObject.layer == 8)
+        {
+            isGrounded = false;
         }
     }
-
-        void fire (){
+    /*
+    void Slash()
+    {
+        animator.SetTrigger("Attack");
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
+        foreach(Collider2D enemy in hitEnemies)
+        {
+            Debug.Log("We hit " + enemy.name);
+            enemy.GetComponent<damageScript>().TakeDamage();
+        }
+    }
+    */
+    void fire (){
         if (facingRight == true) {
             Instantiate (FireballR, muzzle.position, Quaternion.identity);
         } else {
             Instantiate (FireballL, muzzle.position, Quaternion.identity);
         }
+    }
+    IEnumerator EndImumnity()
+    {
+        yield return new WaitForSeconds(2);
+        Immunity = false;
+        spriteRenderer.enabled = false;
+    }
+    IEnumerator EndShield()
+    {
+        yield return new WaitForSeconds(3);
+        shieldCollider.enabled = false;
+        shieldSprite.enabled = false;
     }
 }

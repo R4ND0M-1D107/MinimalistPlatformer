@@ -9,14 +9,19 @@ public class Movable_platform : MonoBehaviour
     bool moveRight = true;
     public float left = 20.5f;
     public float right = 29.5f;
+    float positionX;
 
+    private void Start()
+    {
+        positionX = Creator.PositionX;
+    }
     void Update()
     {
-        if (transform.position.x > right) {
+        if (transform.position.x > (right + positionX- 37.4)) {
             moveRight = false;
         }
         
-        if (transform.position.x < left) {
+        if (transform.position.x < (left + positionX - 37.4)) {
             moveRight = true;
         }
        

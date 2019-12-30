@@ -11,10 +11,10 @@ GameObject:
   - component: {fileID: 2958864519473151695}
   - component: {fileID: 2958864519473151694}
   - component: {fileID: 2958864519473151697}
-  - component: {fileID: 2958864519473151699}
   - component: {fileID: 1325244442919142191}
   - component: {fileID: 1118747668}
-  m_Layer: 0
+  - component: {fileID: -843757177933136363}
+  m_Layer: 12
   m_Name: BoomBot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -31,7 +31,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 52.91, y: -0.62, z: 0}
   m_LocalScale: {x: -1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 6961186985522031529}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -105,23 +106,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &2958864519473151699
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2958864519473151698}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4624978d5ed40a445982e3a5ab24b4d0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 4
-  Self: {fileID: 2958864519473151698}
-  Self2: {fileID: 2958864519473151695}
-  Shrapnel: {fileID: 4355625436121879636, guid: f4f1da3cf8a26ef4d80f8c61a5452c0c,
-    type: 3}
 --- !u!82 &1325244442919142191
 AudioSource:
   m_ObjectHideFlags: 0
@@ -244,3 +228,56 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.0837555, y: 1.7588254}
   m_EdgeRadius: 0
+--- !u!114 &-843757177933136363
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2958864519473151698}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4624978d5ed40a445982e3a5ab24b4d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 5
+  Self: {fileID: 2958864519473151698}
+  Self2: {fileID: 2958864519473151695}
+  Shrapnel: {fileID: 4355625436121879636, guid: f4f1da3cf8a26ef4d80f8c61a5452c0c,
+    type: 3}
+  PlayerCheck: {fileID: 6961186985522031529}
+  PlayerCheckRadius: 2
+  whatIsPlayer:
+    serializedVersion: 2
+    m_Bits: 2048
+  stalkRadius: 10
+--- !u!1 &5356341937183831674
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6961186985522031529}
+  m_Layer: 12
+  m_Name: PlayerCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6961186985522031529
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5356341937183831674}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2958864519473151695}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

@@ -20,7 +20,7 @@ public class Stalactite : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Mathf.Abs(target.position.x - transform.position.x) < 2)
+        if (Mathf.Abs(target.position.x - transform.position.x) < 2 && target.position.y < transform.position.y)
         {
             Under = true;
         }

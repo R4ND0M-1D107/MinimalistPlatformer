@@ -13,7 +13,7 @@ public class drone : MonoBehaviour
     public Transform muzzle;
     public Transform ShieldPos1;
     public static Transform ShieldPos;
-    public static int shotCount;
+    public int shotCount;
     public float Speed, Speed2, Up, Down;
     bool moveUp, shoot;
     bool wasShot;
@@ -150,7 +150,7 @@ public class drone : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.layer == 13 || collision.gameObject.layer == 18)
+        if (collision.gameObject.layer == 11)
         {
             
         }

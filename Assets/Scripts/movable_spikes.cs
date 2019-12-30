@@ -6,8 +6,7 @@ public class movable_spikes : MonoBehaviour
 {
     float dirY, moveSpeed = 2.5f;
     bool moveUp = true;
-    public float Down = 20.5f;
-    public float Up = 29.5f;
+    public float Up = 0;
     AudioSource Fall;
     Rigidbody2D rb;
     public GameObject spikePart;

@@ -11,13 +11,13 @@ public class CoinController : MonoBehaviour
    public Transform PickCheck;
    public float CoinCheckRadius;
    public LayerMask whatIsPicker;
-    AudioSource pickUp;
+    public GameObject CoinSound;
     bool neverDone = true;
+    public int coinValue;
     
     // Start is called before the first frame update
     void Start()
     {
-        pickUp = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -27,9 +27,9 @@ public class CoinController : MonoBehaviour
 
         if (isPickedUp == true && neverDone == true) {
             neverDone = false;
-            pickUp.Play();
-            Score.ScoreValue += 1;
-            Destroy(coin, (pickUp.clip.length - 0.1f));
+            Instantiate(CoinSound, transform.position, Quaternion.identity);
+            Score.ScoreValue += coinValue;
+            Destroy(coin);
         }
     }
 }
