@@ -8,35 +8,28 @@ public class HealthBar : MonoBehaviour
     float scale;
     Transform bar;
     Transform target;
+    float modifier;
     // Start is called before the first frame update
     void Start()
     {
         bar = transform.Find("Bar");
         target = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Transform>();
+        modifier = 1f / SkillHolder.maxHealth;
+        Debug.Log("modifier is : " + modifier);
     }
 
     // Update is called once per frame
-    void Update()
+    /*
+    private void FixedUpdate()
     {
         transform.position = target.position + new Vector3(-14, 8, 1);
-        if(PlayerController.Health == 5)
-        {
-            bar.localScale = new Vector3(1f, 1f);
-        }else if(PlayerController.Health == 4)
-        {
-            bar.localScale = new Vector3(0.8f, 1f);
-        }else if(PlayerController.Health == 3)
-        {
-            bar.localScale = new Vector3(0.6f, 1f);
-        }else if(PlayerController.Health == 2)
-        {
-            bar.localScale = new Vector3(0.4f, 1f);
-        }else if(PlayerController.Health == 1)
-        {
-            bar.localScale = new Vector3(0,2f, 1f);
-        }else if(PlayerController.Health == 0)
-        {
-            bar.localScale = new Vector3(0f, 1f);
+    }
+    */
+    void Update()
+    {
+        if(PlayerController.takeDamage == true) { 
+            bar.localScale -= new Vector3(modifier, 0f);
+            PlayerController.takeDamage = false;
         }
         
     }

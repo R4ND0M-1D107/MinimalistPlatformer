@@ -3,19 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Score : MonoBehaviour
+public class ShieldInGame : MonoBehaviour
 {
-    public static float ScoreValue;
-    Text score;
+    Text shieldCount;
     // Start is called before the first frame update
     void Start()
     {
-        score = GetComponent<Text> ();
+        shieldCount = GetComponent<Text>();
     }
 
     // Update is called once per frame
     void Update()
     {
-    score.text = "" + ScoreValue;
+        shieldCount.text = "" + PlayerController.ShieldUses;
     }
 }

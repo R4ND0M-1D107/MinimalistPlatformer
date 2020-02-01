@@ -15,6 +15,7 @@ public class Creator : MonoBehaviour
     public GameObject h;
     int randNumber;
     private int lastNumber;
+    bool platformRequired;
     Transform player;
     // Start is called before the first frame update
     void Start()
@@ -50,40 +51,52 @@ public class Creator : MonoBehaviour
         {
             Instantiate(a, new Vector3(PositionX, 0), Quaternion.identity);
             PositionX += 17.35f;
+            platformRequired = false;
         }else if (randNumber == 2)
         {
             Instantiate(b, new Vector3(PositionX, 0), Quaternion.identity);
             PositionX += 17.35f;
+            platformRequired = false;
         }
-        else if (randNumber == 3)
+        else if (randNumber == 3 && platformRequired == false)
         {
             Instantiate(c, new Vector3(PositionX, 0), Quaternion.identity);
             PositionX += 17.35f;
+            platformRequired = true;
         }
         else if (randNumber == 4)
         {
             Instantiate(d, new Vector3(PositionX, 0), Quaternion.identity);
             PositionX += 17.35f;
+            platformRequired = false;
         }
         else if (randNumber == 5)
         {
             Instantiate(e, new Vector3(PositionX, 0), Quaternion.identity);
             PositionX += 17.35f;
+            platformRequired = false;
         }
         else if (randNumber == 6)
         {
             Instantiate(f, new Vector3(PositionX, 0), Quaternion.identity);
             PositionX += 17.35f;
+            platformRequired = false;
         }
-        else if (randNumber == 7)
+        else if (randNumber == 7 && platformRequired == false)
         {
             Instantiate(g, new Vector3(PositionX, 0), Quaternion.identity);
             PositionX += 34.7f;
+            platformRequired = true;
         }
-        else if (randNumber == 8)
+        else if (randNumber == 8 && platformRequired == false)
         {
             Instantiate(h, new Vector3(PositionX, 0), Quaternion.identity);
             PositionX += 34.7f;
+            platformRequired = true;
+        }
+        else
+        {
+            Create();
         }
     }
 }

@@ -3,19 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Score : MonoBehaviour
+public class shieldPriceText : MonoBehaviour
 {
-    public static float ScoreValue;
-    Text score;
+    Text PriceText;
+    public static float PriceValue;
     // Start is called before the first frame update
     void Start()
     {
-        score = GetComponent<Text> ();
+        PriceText = GetComponent<Text>() ;
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-    score.text = "" + ScoreValue;
+        PriceText.text = "ϴ" + PriceValue;
+        PriceValue = 500.0f * (SkillHolder.TimesPurchased + 1);
     }
 }

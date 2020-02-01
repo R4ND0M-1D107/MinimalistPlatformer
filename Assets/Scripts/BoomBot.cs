@@ -62,6 +62,7 @@ public class BoomBot : MonoBehaviour
     {
         if(collision.gameObject.layer == 17)
         {
+            Score.ScoreValue += 70;
             SelfDestruct();
         }
         else if(collision.gameObject.layer == 13)

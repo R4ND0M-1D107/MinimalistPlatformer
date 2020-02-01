@@ -14,7 +14,10 @@ public class PlayerController : MonoBehaviour
     public GameObject PortalSpawn;
     public GameObject PortalSpawn2;
 
-    public float Speed = 10f;
+    private float Speed;
+    public float MaxSpeed;
+    public float BaseSpeed;
+    public float acceleration;
     public float jumpForce;
     public float fallMultiplier = 2.5f;
     public float lowJumpMultiplier = 2f;
@@ -50,23 +53,28 @@ public class PlayerController : MonoBehaviour
     bool JumpsReset;
     public Transform muzzle;
     public static bool playerDead = false;
-    public static int Health;
-    public static int maxHealth = 5;
+    public static float Health;
+    public static float maxHealth = 5f;
     bool Immunity;
     public GameObject HaloRing;
     SpriteRenderer spriteRenderer;
     public GameObject shield;
     SpriteRenderer shieldSprite;
     PolygonCollider2D shieldCollider;
+    public static float ShieldUses;
+    public bool ShieldActive;
+
+    public static bool takeDamage;
     
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = gameObject.GetComponent<Animator>();
-        Health = maxHealth;
+        Health = SkillHolder.maxHealth;
         spriteRenderer = HaloRing.GetComponent<SpriteRenderer>();
         shieldSprite = shield.GetComponent<SpriteRenderer>();
         shieldCollider = shield.GetComponent<PolygonCollider2D>();
+        ShieldUses = SkillHolder.TimesPurchased;
         
     }
    
@@ -76,7 +84,16 @@ public class PlayerController : MonoBehaviour
 
         float Dirx = Input.GetAxis("Horizontal");
 
-        rb.velocity = new Vector2(Dirx * Speed, rb.velocity.y);
+        if (Dirx != 0 && Speed < MaxSpeed && Input.GetKey(KeyCode.LeftShift))
+        {
+            Speed = (Speed + acceleration * Time.deltaTime);
+        }
+        else
+        {
+            Speed = BaseSpeed;
+        }
+
+            rb.velocity = new Vector2(Dirx * Speed, rb.velocity.y);
 
         if (facingRight == false && Dirx > 0) {
             Flip();
@@ -114,8 +131,10 @@ public class PlayerController : MonoBehaviour
             rb.velocity += Vector2.up * Physics2D.gravity.y * (DropJumpMultiplier - 1) * Time.deltaTime;
         }
 
-        if (Input.GetKey("q") && SkillHolder.Shield == true)
+        if (Input.GetKey("q") && ShieldUses > 0 && ShieldActive == false)
         {
+            ShieldActive = true;
+            ShieldUses--;
             shieldCollider.enabled = true;
             shieldSprite.enabled = true;
             StartCoroutine(EndShield());
@@ -189,10 +208,6 @@ public class PlayerController : MonoBehaviour
         }
         if (col.gameObject.layer == 9)
         {
-            /*player.transform.position = spawnPoint.transform.position;
-            Score.DeathCount++ ;
-            playerDead = true;
-            */
             if (Immunity == false)
             {
                 Vector3 temp = new Vector3(0, 15f, 0);
@@ -201,6 +216,7 @@ public class PlayerController : MonoBehaviour
                 Health--;
                 spriteRenderer.enabled = true;
                 StartCoroutine(EndImumnity());
+                takeDamage = true;
             }
         }
         if (col.gameObject.layer == 17) {
@@ -210,6 +226,7 @@ public class PlayerController : MonoBehaviour
                 Health--;
                 spriteRenderer.enabled = true;
                 StartCoroutine(EndImumnity());
+                takeDamage = true;
             }
         }
     }
@@ -254,5 +271,6 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(3);
         shieldCollider.enabled = false;
         shieldSprite.enabled = false;
+        ShieldActive = false;
     }
 }

@@ -169,6 +169,7 @@ public class drone : MonoBehaviour
     }
     void Death()
     {
+        Score.ScoreValue += 500;
         Destroy(self);
     }
     IEnumerator Shooting1()

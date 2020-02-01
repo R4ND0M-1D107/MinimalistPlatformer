@@ -4,21 +4,20 @@ using UnityEngine;
 
 public class SkillHolder : MonoBehaviour
 {
-    public static bool Shield;
     public static bool DropJump;
     public static bool DoubleJump;
+    public static float TimesPurchased;
+    public static float HealthPrice = 100;
+    public static float maxHealth = 1;
     // Start is called before the first frame update
     public void ActivateShield()
     {
-        if(Shield == true)
+        if(Score.ScoreValue >= shieldPriceText.PriceValue)
         {
-            Debug.Log("Skill already bought");
-        }else if(Score.ScoreValue > 1000)
-        {
-            Shield = true;
-            Score.ScoreValue -= 1000;
+            Score.ScoreValue -= shieldPriceText.PriceValue;
             Debug.Log("Skill bought");
-        }else if(Score.ScoreValue < 1000)
+            TimesPurchased++;
+        }else if(Score.ScoreValue < shieldPriceText.PriceValue)
         {
             Debug.Log("Insuficient funds");
         }
@@ -30,7 +29,7 @@ public class SkillHolder : MonoBehaviour
         {
             Debug.Log("Skill already bought");
         }
-        else if (Score.ScoreValue > 1000)
+        else if (Score.ScoreValue >= 1000)
         {
             DropJump = true;
             Score.ScoreValue -= 1000;
@@ -56,6 +55,16 @@ public class SkillHolder : MonoBehaviour
         else if (Score.ScoreValue < 1000)
         {
             Debug.Log("Insuficient funds");
+        }
+    }
+
+    public void IncreaseHealth()
+    {
+        if (Score.ScoreValue >= HealthPrice)
+        {
+            maxHealth++;
+            Score.ScoreValue -= HealthPrice;
+            HealthPrice *= 2;
         }
     }
 }
