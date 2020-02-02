@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody2D rb;
 
-    private bool facingRight = true;
+    public static bool facingRight = true;
 
     private bool LevelComplete;
     public Transform portalCheck;
@@ -48,8 +48,11 @@ public class PlayerController : MonoBehaviour
 
     public GameObject FireballR;
     public GameObject FireballL;
-    public float fireRate = 2.5f;
-    float nextFire = 0.0f;
+    public GameObject PlayerLaser;
+    public float FireballFireRate;
+    public float LaserFireRate;
+    float nextFireball = 0.0f;
+    float nextLaser = 0.0f;
     bool JumpsReset;
     public Transform muzzle;
     public static bool playerDead = false;
@@ -65,7 +68,9 @@ public class PlayerController : MonoBehaviour
     public bool ShieldActive;
 
     public static bool takeDamage;
-    
+
+    public static int weaponNumber;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -75,9 +80,8 @@ public class PlayerController : MonoBehaviour
         shieldSprite = shield.GetComponent<SpriteRenderer>();
         shieldCollider = shield.GetComponent<PolygonCollider2D>();
         ShieldUses = SkillHolder.TimesPurchased;
-        
     }
-   
+
     void FixedUpdate()
     {
         LevelComplete = Physics2D.OverlapCircle(portalCheck.position, checkRadius, whatIsPortal);
@@ -93,11 +97,11 @@ public class PlayerController : MonoBehaviour
             Speed = BaseSpeed;
         }
 
-            rb.velocity = new Vector2(Dirx * Speed, rb.velocity.y);
+        rb.velocity = new Vector2(Dirx * Speed, rb.velocity.y);
 
         if (facingRight == false && Dirx > 0) {
             Flip();
-            
+
         } else if (facingRight == true && Dirx < 0) {
             Flip();
         }
@@ -113,18 +117,29 @@ public class PlayerController : MonoBehaviour
     }
 
     void Update() {
-        if(rb.velocity.y < 0)
+        weaponNumber = Mathf.Clamp(weaponNumber, 1, 2);
+        weaponNumber += (int) Input.GetAxis("Mouse ScrollWheel");
+        Debug.Log("" + weaponNumber);
+
+        if (rb.velocity.y < 0)
         {
             rb.velocity += Vector2.up * Physics2D.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
-        }else if (rb.velocity.y > 0 && !Input.GetButton("Jump"))
+        } else if (rb.velocity.y > 0 && !Input.GetButton("Jump"))
         {
             rb.velocity += Vector2.up * Physics2D.gravity.y * (lowJumpMultiplier - 1) * Time.deltaTime;
         }
-        
-        if (Input.GetButtonDown("Fire1") && Time.time > nextFire) {
 
-            nextFire = Time.time + fireRate;
-            fire();
+        if (Input.GetButtonDown("Fire1") ) {
+            if (weaponNumber == 1 && Time.time > nextFireball)
+            {
+                nextFireball = Time.time + FireballFireRate;
+                fire(1);
+            }else if (weaponNumber == 2 && Time.time > nextLaser)
+            {
+                nextLaser = Time.time + LaserFireRate;
+                fire(2);
+            }
+            
         }
         if (Input.GetKey("c") && isGrounded == false && SkillHolder.DropJump == true)
         {
@@ -153,14 +168,14 @@ public class PlayerController : MonoBehaviour
 
         if (JumpsReset == false)
         {
-            if(SkillHolder.DoubleJump == true)
+            if (SkillHolder.DoubleJump == true)
             {
                 extraJumps = 2;
-            }else if(SkillHolder.DoubleJump == false)
+            } else if (SkillHolder.DoubleJump == false)
             {
                 extraJumps = 1;
             }
-            
+
             JumpsReset = true;
         }
         if (isGrounded == false)
@@ -175,11 +190,10 @@ public class PlayerController : MonoBehaviour
             rb.velocity = Vector2.up * jumpForce;
             extraJumps--;
         }
-        if(Health <= 0)
+        if (Health <= 0)
         {
             SceneManager.LoadScene("MainMenu");
         }
-
     }
 
     void Flip() {
@@ -187,6 +201,7 @@ public class PlayerController : MonoBehaviour
         Vector3 Scaler = transform.localScale;
         Scaler.x *= -1;
         transform.localScale = Scaler;
+        GunScript.flipModifier *= -1;
     }
 
     // movable - move with platform
@@ -199,7 +214,7 @@ public class PlayerController : MonoBehaviour
         {
             isGrounded = true;
             JumpsReset = false;
-            
+
         }
         if (col.gameObject.layer == 15) {
             this.transform.parent = col.transform;
@@ -230,9 +245,9 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-    
+
     void OnCollisionExit2D(Collision2D col) {
-        if (col.gameObject.layer == 15){
+        if (col.gameObject.layer == 15) {
             this.transform.parent = null;
             isGrounded = false;
         }
@@ -253,11 +268,20 @@ public class PlayerController : MonoBehaviour
         }
     }
     */
-    void fire (){
-        if (facingRight == true) {
-            Instantiate (FireballR, muzzle.position, Quaternion.identity);
-        } else {
-            Instantiate (FireballL, muzzle.position, Quaternion.identity);
+    void fire(int x) {
+        if (x == 1)
+        {
+            if (facingRight == true)
+            {
+                Instantiate(FireballR, muzzle.position, Quaternion.Euler(0.0f, 0.0f, GunScript.Rotation));
+            }
+            else
+            {
+                Instantiate(FireballL, muzzle.position, Quaternion.Euler(0.0f, 0.0f, GunScript.Rotation));
+            }
+        }else if (x == 2)
+        {
+            Instantiate(PlayerLaser, muzzle.position, Quaternion.Euler(0.0f, 0.0f, GunScript.Rotation));
         }
     }
     IEnumerator EndImumnity()

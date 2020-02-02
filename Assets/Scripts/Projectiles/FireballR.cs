@@ -2,21 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FireballL : MonoBehaviour
+public class FireballR : MonoBehaviour
 {
-    public static float velX;
-    float velY = 0f;
+    public float Speed;
     Rigidbody2D rb3;
     public GameObject fireball;
     public GameObject Explosion;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        StartCoroutine(Destroy());
-        rb3 = GetComponent<Rigidbody2D> ();
-        velX = -35f;
-    }
+    Vector2 rotation;
+    public Transform Muzzle;
+    public Transform RotationModifier;
 
     void OnCollisionEnter2D(Collision2D collision)
     {
@@ -29,14 +23,23 @@ public class FireballL : MonoBehaviour
             Instantiate(Explosion, transform.position, Quaternion.identity);
             Destroy(fireball);
         }
-        
+
+    }
+    // Start is called before the first frame update
+    void Start()
+    {
+        Muzzle = GameObject.FindGameObjectWithTag("Muzzle").GetComponent<Transform>();
+        RotationModifier = GameObject.FindGameObjectWithTag("VectorMod").GetComponent<Transform>();
+        StartCoroutine(Destroy());
+        rb3 = GetComponent<Rigidbody2D> ();
+        rotation = Muzzle.position - RotationModifier.position;
     }
 
     // Update is called once per frame
     void Update()
     {
         
-        rb3.velocity = new Vector2 (velX, velY);
+        rb3.velocity = rotation * Speed;
 
     }
     IEnumerator Destroy()
