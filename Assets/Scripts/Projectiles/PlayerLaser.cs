@@ -42,7 +42,8 @@ public class PlayerLaser : MonoBehaviour
     }
     IEnumerator Destroy()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.35f);
         Destroy(self);
     }
+
 }

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class SkillHolder : MonoBehaviour
 {
-    public static bool DropJump;
     public static bool DoubleJump;
     public static float TimesPurchased;
     public static float HealthPrice = 100;
@@ -23,23 +22,7 @@ public class SkillHolder : MonoBehaviour
         }
         
     }
-    public void ActivateDropJump()
-    {
-        if (DropJump == true)
-        {
-            Debug.Log("Skill already bought");
-        }
-        else if (Score.ScoreValue >= 1000)
-        {
-            DropJump = true;
-            Score.ScoreValue -= 1000;
-            Debug.Log("Skill bought");
-        }
-        else if (Score.ScoreValue < 1000)
-        {
-            Debug.Log("Insuficient funds");
-        }
-    }
+    
     public void ActivateDoubleJump()
     {
         if (DoubleJump == true)

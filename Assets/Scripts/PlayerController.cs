@@ -34,9 +34,9 @@ public class PlayerController : MonoBehaviour
     public Transform portalCheck;
     public LayerMask whatIsPortal;
 
-    public float attackRange = 0.5f;
-    public Transform attackPoint;
-    public LayerMask enemyLayers;
+    //public float attackRange = 0.5f;
+    //public Transform attackPoint;
+    //public LayerMask enemyLayers;
 
     private bool isGrounded;
     public float checkRadius;
@@ -49,10 +49,18 @@ public class PlayerController : MonoBehaviour
     public GameObject FireballR;
     public GameObject FireballL;
     public GameObject PlayerLaser;
+    public GameObject Pellet;
     public float FireballFireRate;
     public float LaserFireRate;
+    public float PelletFireRate;
     float nextFireball = 0.0f;
     float nextLaser = 0.0f;
+    float nextPellet = 0.0f;
+    public static int laserAmmo;
+    public static int fireballAmmo;
+    public static int shotgunAmmo;
+    int maxAmmo = 3;
+    
     bool JumpsReset;
     public Transform muzzle;
     public static bool playerDead = false;
@@ -73,6 +81,7 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        shotgunAmmo = laserAmmo = fireballAmmo = maxAmmo; 
         rb = GetComponent<Rigidbody2D>();
         animator = gameObject.GetComponent<Animator>();
         Health = SkillHolder.maxHealth;
@@ -117,7 +126,7 @@ public class PlayerController : MonoBehaviour
     }
 
     void Update() {
-        weaponNumber = Mathf.Clamp(weaponNumber, 1, 2);
+        weaponNumber = Mathf.Clamp(weaponNumber, 1, 3);
         weaponNumber += (int) Input.GetAxis("Mouse ScrollWheel");
         Debug.Log("" + weaponNumber);
 
@@ -130,21 +139,25 @@ public class PlayerController : MonoBehaviour
         }
 
         if (Input.GetButtonDown("Fire1") ) {
-            if (weaponNumber == 1 && Time.time > nextFireball)
+            if (weaponNumber == 1 && Time.time > nextFireball && fireballAmmo > 0)
             {
                 nextFireball = Time.time + FireballFireRate;
+                fireballAmmo--;
                 fire(1);
-            }else if (weaponNumber == 2 && Time.time > nextLaser)
+            }else if (weaponNumber == 2 && Time.time > nextLaser && laserAmmo > 0)
             {
                 nextLaser = Time.time + LaserFireRate;
+                laserAmmo--;
                 fire(2);
+            }else if (weaponNumber == 3 && Time.time > nextPellet && shotgunAmmo > 0)
+            {
+                nextPellet = Time.time + PelletFireRate;
+                shotgunAmmo--;
+                fire(3);
             }
             
         }
-        if (Input.GetKey("c") && isGrounded == false && SkillHolder.DropJump == true)
-        {
-            rb.velocity += Vector2.up * Physics2D.gravity.y * (DropJumpMultiplier - 1) * Time.deltaTime;
-        }
+        
 
         if (Input.GetKey("q") && ShieldUses > 0 && ShieldActive == false)
         {
@@ -201,6 +214,7 @@ public class PlayerController : MonoBehaviour
         Vector3 Scaler = transform.localScale;
         Scaler.x *= -1;
         transform.localScale = Scaler;
+        GunScript.Rotation *= -1;
         GunScript.flipModifier *= -1;
     }
 
@@ -282,6 +296,12 @@ public class PlayerController : MonoBehaviour
         }else if (x == 2)
         {
             Instantiate(PlayerLaser, muzzle.position, Quaternion.Euler(0.0f, 0.0f, GunScript.Rotation));
+        }else if (x == 3)
+        {
+            for(int c = 1; c <= 5; c++)
+            {
+                Instantiate(Pellet, muzzle.position, Quaternion.Euler(0.0f, 0.0f, GunScript.Rotation));
+            }
         }
     }
     IEnumerator EndImumnity()

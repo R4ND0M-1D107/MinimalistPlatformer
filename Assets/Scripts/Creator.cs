@@ -13,6 +13,9 @@ public class Creator : MonoBehaviour
     public GameObject f;
     public GameObject g;
     public GameObject h;
+    public GameObject i;
+    public GameObject j;
+    public GameObject k;
     int randNumber;
     private int lastNumber;
     bool platformRequired;
@@ -46,7 +49,7 @@ public class Creator : MonoBehaviour
     }
     void Create()
     {
-        GetRandom(1, 8);
+        GetRandom(1, 12);
         if (randNumber == 1)
         {
             Instantiate(a, new Vector3(PositionX, 0), Quaternion.identity);
@@ -92,6 +95,24 @@ public class Creator : MonoBehaviour
         {
             Instantiate(h, new Vector3(PositionX, 0), Quaternion.identity);
             PositionX += 34.7f;
+            platformRequired = true;
+        }
+        else if (randNumber == 9 && platformRequired == false)
+        {
+            Instantiate(i, new Vector3(PositionX, 0), Quaternion.identity);
+            PositionX += 17.35f;
+            platformRequired = true;
+        }
+        else if (randNumber == 10 && platformRequired == false)
+        {
+            Instantiate(j, new Vector3(PositionX, 0), Quaternion.identity);
+            PositionX += 17.35f;
+            platformRequired = true;
+        }
+        else if (randNumber == 11 && platformRequired == false)
+        {
+            Instantiate(k, new Vector3(PositionX, 0), Quaternion.identity);
+            PositionX += 17.35f;
             platformRequired = true;
         }
         else

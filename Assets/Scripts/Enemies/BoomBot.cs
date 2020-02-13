@@ -47,7 +47,7 @@ public class BoomBot : MonoBehaviour
     // Update is called once per frame    
     void Update()
     {
-        if (Mathf.Abs(target.position.x - transform.position.x) < 1 && (Mathf.Abs(target.position.y - transform.position.y) < 2) && NeverDone == true)
+        if (Mathf.Abs(target.position.x - transform.position.x) < 3 && (Mathf.Abs(target.position.y - transform.position.y) < 3) && NeverDone == true)
         {
             SelfDestruct();
             NeverDone = false;
@@ -62,12 +62,12 @@ public class BoomBot : MonoBehaviour
     {
         if(collision.gameObject.layer == 17)
         {
-            Score.ScoreValue += 70;
             SelfDestruct();
         }
         else if(collision.gameObject.layer == 13)
         {
             SelfDestruct();
+            Score.ScoreValue += 70;
         }
         else if(collision.gameObject.layer == 19)
         {

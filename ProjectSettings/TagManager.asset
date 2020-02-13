@@ -28,9 +28,9 @@ TagManager:
   - shrapnel
   - limiter
   - shield
-  - 
-  - 
-  - 
+  - shotgunAmmo
+  - laserAmmo
+  - fireballAmmo
   - 
   - 
   - 

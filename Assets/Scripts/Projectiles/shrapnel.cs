@@ -24,4 +24,6 @@ public class shrapnel : MonoBehaviour
         rb.velocity = new Vector2(velX * speed, velY * speed);
         Destroy(self, 0.6f);
     }
+
+
 }

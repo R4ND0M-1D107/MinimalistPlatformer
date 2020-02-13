@@ -859,16 +859,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1573834574263426092, guid: 1d00b0a35a54a164eaa4a2ae30e57c4c,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 68
-      objectReference: {fileID: 0}
-    - target: {fileID: 1573834574263426092, guid: 1d00b0a35a54a164eaa4a2ae30e57c4c,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -1.46
-      objectReference: {fileID: 0}
     - target: {fileID: 1573834574263426090, guid: 1d00b0a35a54a164eaa4a2ae30e57c4c,
         type: 3}
       propertyPath: m_IsActive
@@ -877,20 +867,6 @@ PrefabInstance:
     - target: {fileID: 2096972368, guid: 1d00b0a35a54a164eaa4a2ae30e57c4c, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5272018144478963636, guid: 1d00b0a35a54a164eaa4a2ae30e57c4c,
-        type: 3}
-      propertyPath: NextLevelDialog
-      value: 
-      objectReference: {fileID: 5927555499544886673, guid: df5007011d8ffcd4facb08f4dd0d7599,
-        type: 3}
-    - target: {fileID: 620640397, guid: 1d00b0a35a54a164eaa4a2ae30e57c4c, type: 3}
-      propertyPath: player
-      value: 
-      objectReference: {fileID: 945046835}
-    - target: {fileID: 509567312, guid: 1d00b0a35a54a164eaa4a2ae30e57c4c, type: 3}
-      propertyPath: RoationSpeed
-      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1d00b0a35a54a164eaa4a2ae30e57c4c, type: 3}

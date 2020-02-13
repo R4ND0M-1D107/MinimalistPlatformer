@@ -20,7 +20,18 @@ public class GunScript : MonoBehaviour
     void Update()
     {
         animator.SetInteger("weaponNumber", PlayerController.weaponNumber);
-        Rotation = Mathf.Clamp(Rotation, -30.0f, 30.0f);
+        if (PlayerController.weaponNumber == 1)
+        {
+            Rotation = Mathf.Clamp(Rotation, -30.0f, 30.0f);
+        }else if (PlayerController.weaponNumber == 2)
+        {
+            Rotation = Mathf.Clamp(Rotation, -15.0f, 15.0f);
+        }
+        else if (PlayerController.weaponNumber == 3)
+        {
+            Rotation = Mathf.Clamp(Rotation, -1.0f, 1.0f);
+        }
+        
         Rotation += RoationSpeed * flipModifier * Input.GetAxis("Mouse Y");
         
 
